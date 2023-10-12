@@ -2,57 +2,121 @@
 <html lang="en">
 
 <head>
-  <title>Creating react page</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</head>
-
-<body>
-
-  <h2>Ruchitha Myakala speed check</h2>
-  <div id="target">Your Time:</div>
-  <div id="counter">Count:</div>
-
-  <div class="container text-center">
-    <button type="button" class="btn btn-success" onclick="startTime()">Start Timer</button>
-    <button type="button" class="btn btn-success" onclick="recordTime()">React</button>
-  </div>
-
-
-
-  <script>
-
-    let reactTime = undefined;
-    function recordTime() {
-      reactTime = Date.now()
-      console.log("Current time in milli seconds: " + reactTime)
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
     }
 
-    function startTime() {
-      reactTime = undefined;
-      endTime = Date.now();
-      let randomCountDown = Math.round(Math.random() * (10 - 2) + 2)
-      for (let i = 0; i < randomCountDown; i++) {
-        setTimeout(function () {
-          document.getElementById('counter').innerHTML = `Count: ${i}`
-        }, (randomCountDown - i) * 1000)
+    header {
+      background-color: #4bc56b;
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    main {
+      padding: 30px;
+    }
+
+    p {
+      margin-bottom: 20px;
+    }
+
+    .big-text {
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    .btn-start-timer,
+    .btn-react,
+    .btn-new-game {
+      font-size: 24px;
+      margin-top: 20px;
+      margin-right: 10px;
+    }
+  </style>
+  <title>Creating html page for react</title>
+  <h1>Ruchitha Myakala speed check</h1>
+  <script>
+    let reactTime;
+
+    function recordTime() {
+      reactTime = Date.now();
+      console.log('React Time:', reactTime);
+    }
+
+    function startTimer() {
+      let countdownTime = Math.floor(Math.random() * (10 - 2 + 1)) + 2;
+
+      let tooSlowTimeout = setTimeout(() => {
+        document.getElementById('target').innerText = 'Too Slow';
+      }, countdownTime * 1000);
+
+      for (let i = 0; i < 9; i++) {
+        setTimeout(() => {
+          document.getElementById('counter').innerText = `Count: ${i}`;
+        }, (countdownTime - i) * 1000);
       }
-      setTimeout(function () { document.getElementById('counter').innerHTML = `Count: ${i}` }, 8000)
-      setTimeout(function () {
-        if (reactTime == undefined) {
-          document.getElementById("target").innerHTML = "Too Slow";
+
+      setTimeout(() => {
+        clearTimeout(tooSlowTimeout);
+        if (reactTime === undefined) {
+          document.getElementById('target').innerText = 'Too Slow';
+        } else {
+          let endTime = Date.now();
+          let elapsedTime = endTime - reactTime;
+          document.getElementById('target').innerText = `Your time: ${elapsedTime} ms`;
         }
-        else {
-          const elapsed_time = Math.abs(endTime - reactTime)
-          document.getElementById("target").innerHTML = "Time was " + elapsed_time } }, 8000)
+      }, countdownTime * 1000);
+    }
+
+    function startNewGame() {
+      reactTime = undefined;
+      document.getElementById('target').innerText = 'Your time: ';
+      document.getElementById('counter').innerText = 'Count: ';
+
+      let countdownTime = Math.floor(Math.random() * (10 - 2 + 1)) + 2;
+
+      let tooSlowTimeout = setTimeout(() => {
+        document.getElementById('target').innerText = 'Too Slow';
+      }, countdownTime * 1000);
+
+      for (let i = 0; i < 9; i++) {
+        setTimeout(() => {
+          document.getElementById('counter').innerText = `Count: ${i}`;
+        }, (countdownTime - i) * 1000);
+      }
+
+      setTimeout(() => {
+        clearTimeout(tooSlowTimeout);
+        if (reactTime === undefined) {
+          document.getElementById('target').innerText = 'Too Slow';
+        } else {
+          let endTime = Date.now();
+          let elapsedTime = endTime - reactTime;
+          document.getElementById('target').innerText = `Your time: ${elapsedTime} ms`;
+        }
+      }, countdownTime * 1000);
     }
 
   </script>
+</head>
 
+<body>
+  <main class="container mt-4">
+    <p class="big-text" id="target">Your time: </p>
+    <p class="big-text" id="counter">Count: </p>
+
+    <button class="btn btn-secondary btn-start-timer" onclick="startTimer()">Start Timer</button>
+    <button class="btn btn-alert btn-react" onclick="recordTime()">React</button>
+  </main>
 </body>
 
 </html>
